@@ -21,6 +21,8 @@ abstract class Runner {
     const program = Bun.spawn([executableName]);
     await program.exited;
     const output: string = await new Response(program.stdout).text();
+    const err: string = await new Response(program.stderr).text();
+    console.error(err);
     return output;
   }
   private async writeCode(filename: string, code: string): Promise<string> {
