@@ -6,9 +6,30 @@
     <title>Code Runner</title>
   </head>
   <body>
-    <form action="./cpp" method="GET">
+    <form id="qwer" action="./" method="GET">
+      <input type="text" name="cwd" value="~" />
       <textarea rows="32" cols="64" name="code"></textarea>
       <button>Submit</button>
     </form>
+    <div id="output-container" />
+    <script>
+      const form = document.getElementById("qwer");
+      const out = document.getElementById("output-container");
+      async function handleSubmit(e) {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const code = formData.get("code");
+        const cwd = formData.get("cwd");
+        const sp = new URLSearchParams({ code, cwd });
+        const url = `/run?${sp.toString()}`;
+        const res = await fetch(url);
+        const text = await res.text();
+        console.log(text);
+        const o = document.createElement("div");
+        o.innerText = text;
+        out.appendChild(o);
+      }
+      form.addEventListener("submit", handleSubmit);
+    </script>
   </body>
 </html>
