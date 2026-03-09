@@ -25,11 +25,12 @@ abstract class Runner {
     console.error(err);
     return output;
   }
-  private async writeCode(filename: string, code: string): Promise<string> {
-    console.log(`writing to ${filename}`);
-    const sourceName = filename + this.fileExtension;
-    await Bun.write(filename, code);
-    console.log(`writing to ${filename} done`);
+  protected async writeCode(filename: string, code: string): Promise<string> {
+    const sourceName = filename + "." + this.fileExtension;
+    console.log(`writing to ${sourceName}`);
+    console.log({ sourceName, code });
+    await Bun.write(sourceName, code);
+    console.log(`writing to ${sourceName} done`);
     return sourceName;
   }
 }

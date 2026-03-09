@@ -6,9 +6,9 @@ import { spawn } from "bun";
 
 const cppRunner: CppRunner = new CppRunner();
 
-async function run(cmd: string, cwd: string): Promise<string> {
+async function run(cmd: string[], cwd: string): Promise<string> {
   console.log({ cwd });
-  const p = spawn([cmd], {
+  const p = spawn(cmd, {
     cwd,
   });
   const o: string = await p.stdout.text();
@@ -32,7 +32,7 @@ const server = Bun.serve({
         });
 
       try {
-        const o: string = await run(cmd, cwd);
+        const o: string = await run(cmd.split(" "), cwd);
         console.log({ o });
         return new Response(o, {
           headers: {
@@ -58,7 +58,7 @@ const server = Bun.serve({
     "/cpp": async (req: Request): Promise<Response> => {
       const url: URL = new URL(req.url);
       const code: string = url.searchParams.get("code") || "";
-      const output: string = await cppRunner.run(code);
+      const output: string = await cppRunner.run("main", code);
       return new Response(output, {
         headers: {
           "Content-Type": "text/plain",

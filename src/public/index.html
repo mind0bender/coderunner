@@ -6,8 +6,34 @@
     <title>Code Runner</title>
   </head>
   <body>
-    <form id="qwer" action="./" method="GET">
-      <input type="text" name="cwd" value="~" />
+    <style>
+      body {
+        color: #fafafa;
+        background-color: #1e1e1e;
+      }
+      input,
+      textarea {
+        background-color: #3e3e3e;
+        color: #fafafa;
+        padding: 0.4rem 0.6rem 0.4rem 0.6rem;
+        font-family: monospace;
+      }
+      button {
+        background-color: #3e3e3e;
+        color: #fafafa;
+        padding: 0.4rem 0.6rem 0.4rem 0.6rem;
+        width: fit-content;
+      }
+    </style>
+    <form
+      id="qwer"
+      method="GET"
+      style="display: flex; flex-direction: column; gap: 1rem"
+    >
+      <label for="cwd">
+        cwd&nbsp;
+        <input type="text" id="cwd" name="cwd" value="~" />
+      </label>
       <textarea rows="32" cols="64" name="code"></textarea>
       <button>Submit</button>
     </form>
@@ -21,7 +47,7 @@
         const code = formData.get("code");
         const cwd = formData.get("cwd");
         const sp = new URLSearchParams({ code, cwd });
-        const url = `/run?${sp.toString()}`;
+        const url = `/cpp?${sp.toString()}`;
         const res = await fetch(url);
         const text = await res.text();
         console.log(text);
