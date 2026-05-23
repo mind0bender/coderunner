@@ -32,7 +32,7 @@ class CppRunner extends Runner {
       "--group",
       "99999",
       "-R",
-      "/usr/bin/",
+      "/usr",
       "-R",
       "/lib",
       "-R",

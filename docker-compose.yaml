@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      target: release
+    ports:
+      - "8080:8080"
+    # Fixes Ctrl+C not reaching Bun
+    init: true
+    # Nsjail requires these to create namespaces/sandboxes
+    privileged: true
+    # cap_add:
+    #   - SYS_ADMIN
+    #   - SETUID
+    #   - SETGID
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
